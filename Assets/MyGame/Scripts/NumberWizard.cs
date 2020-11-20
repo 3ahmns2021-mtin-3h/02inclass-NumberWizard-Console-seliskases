@@ -28,7 +28,7 @@ public class NumberWizard : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
-            max = guess + 1;
+            max = guess - 1;
             NextGuess();
         }
 
@@ -46,6 +46,6 @@ public class NumberWizard : MonoBehaviour
     private void NextGuess()
     {
         guess = (min + max) / 2;
-        WriteMessage("Is your number higher or lower than ..." + guess);
+        WriteMessage("Is your number higher or lower than " + guess + "?");
     }
 }

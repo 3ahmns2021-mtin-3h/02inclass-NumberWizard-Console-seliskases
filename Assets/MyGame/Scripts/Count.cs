@@ -19,21 +19,21 @@ public class Count : MonoBehaviour
             max = float.Parse(inputMax.text);
             range = max - min;
 
-            if(number>=min && number <= max)
+            if(number >= min && number <= max)
             {
-                WriteCount();
+                WriteMessage(CalculateCount(min, max).ToString());
             }
             else
             {
-                Debug.LogWarning("Your number is not within your given Range");
+                WriteMessage("The number is not within your given Range!");
             }
 
         }
     }
 
-    private void WriteCount()
+    private void WriteMessage(string msg)
     {
-        textField.text = CalculateCount(min, max).ToString();
+        textField.text = msg;
     }
 
     private int CalculateCount(float tempMin, float tempMax)
