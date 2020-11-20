@@ -4,10 +4,10 @@
 Introduction/Project summary 
 
 ### Development platform: 
-(OS, Unity Version, Visual Studio Version, used SDKs)
+Windows, Unity 2020.1.5f1, Visual Studio 2019)
 
 ### Target platform: 
-WebGL, Mobile, VR Device incl. reference resolution 
+Desktop, WebGl
 
 ### Visuals: 
 Screenshots (concept and experience), Video
@@ -23,6 +23,7 @@ incl. progress in percent
 
 ### Limitations: 
 
-### Lessons Learned: 
+### Lessons Learned:
+Checking, wether a Parse (conversion from string to int) is possible by using TryParse() in an if-Statement.
 
 Copyright by seliskases
