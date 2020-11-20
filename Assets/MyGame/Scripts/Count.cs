@@ -15,25 +15,32 @@ public class Count : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            number = float.Parse(inputNumber.text);
-            min = float.Parse(inputMin.text);
-            max = float.Parse(inputMax.text);
-            range = max - min;            
-
-            if (number >= min && number <= max)
+            if (float.TryParse(inputNumber.text, out number) && float.TryParse(inputMin.text, out min) && float.TryParse(inputMax.text, out max))
             {
-                if (GameManager.rangeIsChanging)
+                number = float.Parse(inputNumber.text);
+                min = float.Parse(inputMin.text);
+                max = float.Parse(inputMax.text);
+                range = max - min;
+
+                if (number >= min && number <= max)
                 {
-                    WriteMessage(CalculateCount(min, max).ToString());
+                    if (GameManager.rangeIsChanging)
+                    {
+                        WriteMessage(CalculateCount(min, max).ToString());
+                    }
+                    else
+                    {
+                        WriteMessage(CalculateCount(min, max).ToString());
+                    }
                 }
                 else
                 {
-                    WriteMessage(CalculateCount(min, max).ToString());
+                    WriteMessage("The number is not within your given Range!");
                 }
             }
             else
             {
-                WriteMessage("The number is not within your given Range!");
+                WriteMessage("Input Error");
             }
         }
     }
@@ -46,36 +53,36 @@ public class Count : MonoBehaviour
     private int CalculateCount(float tempMin, float tempMax)
     {
         float guess;
-        int count=0;
+        int count = 0;
         int value = Convert.ToInt32(GameManager.rangeIsChanging);
-        print(value);   
+        print(value);
 
         for (int n = 1; n <= CalculateMax(); n++)
         {
             count = n;
             guess = Mathf.FloorToInt((tempMin + tempMax) / 2);
 
-            if(guess > number)
+            if (guess > number)
             {
                 tempMax = guess - value;
             }
 
-            if(guess < number)
+            if (guess < number)
             {
                 tempMin = guess + value;
             }
 
-            if(guess == number)
+            if (guess == number)
             {
                 break;
             }
         }
-        return(count);
+        return (count);
     }
 
     private float CalculateMax()
     {
         float maxCount = Mathf.Ceil(Mathf.Log(range, 2));
-        return(maxCount);
+        return (maxCount);
     }
 }

@@ -25,5 +25,11 @@ public class GameManager : MonoBehaviour
     }
     public static bool rangeIsChanging;
 
+    public void SelfDestruction(bool isTrue)
+    {
+        selfDestruction = isTrue;
+    }
+    public static bool selfDestruction;
+
     #endregion
 }

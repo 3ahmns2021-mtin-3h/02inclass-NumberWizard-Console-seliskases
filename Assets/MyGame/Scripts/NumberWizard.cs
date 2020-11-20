@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class NumberWizard : MonoBehaviour
 {
+    public GameObject backButton;
     public TextMeshProUGUI textField;
     public int min = 1;
     public int max = 100;
 
-    private int guess;
+    private int guess, tempGuess;
 
     private void Start()
     {
@@ -49,6 +51,46 @@ public class NumberWizard : MonoBehaviour
     private void NextGuess()
     {
         guess = (min + max) / 2;
-        WriteMessage("Is your number higher or lower than " + guess + "?");
+
+        if(guess != tempGuess)
+        {
+            tempGuess = guess;
+            WriteMessage("Is your number higher or lower than " + guess + "?");
+        }
+        else
+        {
+            if (GameManager.selfDestruction)
+            {
+                backButton.SetActive(false);
+                WriteMessage("You lied!");
+                StartCoroutine(QuitGame());
+            }
+            else
+            {
+                WriteMessage("The number can't be within your given Range!");
+            }
+        }
+    }
+
+    private IEnumerator QuitGame()
+    {
+        print("destructing");
+        float time = 6;
+        while (true)
+        {
+            time -= Time.deltaTime;
+
+            if(time <= 5)
+            {
+                textField.text = Mathf.FloorToInt(time).ToString();
+            }          
+
+            if (time == 0)
+            {
+                Application.Quit();
+                break;
+            }
+            yield return null;
+        }
     }
 }
