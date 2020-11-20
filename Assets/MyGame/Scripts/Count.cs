@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using TMPro;
 
 public class Count : MonoBehaviour
@@ -17,17 +18,23 @@ public class Count : MonoBehaviour
             number = float.Parse(inputNumber.text);
             min = float.Parse(inputMin.text);
             max = float.Parse(inputMax.text);
-            range = max - min;
+            range = max - min;            
 
-            if(number >= min && number <= max)
+            if (number >= min && number <= max)
             {
-                WriteMessage(CalculateCount(min, max).ToString());
+                if (GameManager.rangeIsChanging)
+                {
+                    WriteMessage(CalculateCount(min, max).ToString());
+                }
+                else
+                {
+                    WriteMessage(CalculateCount(min, max).ToString());
+                }
             }
             else
             {
                 WriteMessage("The number is not within your given Range!");
             }
-
         }
     }
 
@@ -40,20 +47,22 @@ public class Count : MonoBehaviour
     {
         float guess;
         int count=0;
+        int value = Convert.ToInt32(GameManager.rangeIsChanging);
+        print(value);   
 
-        for(int n = 1; n <= CalculateMax(); n++)
+        for (int n = 1; n <= CalculateMax(); n++)
         {
             count = n;
             guess = Mathf.FloorToInt((tempMin + tempMax) / 2);
 
             if(guess > number)
             {
-                tempMax = guess;
+                tempMax = guess - value;
             }
 
             if(guess < number)
             {
-                tempMin = guess;
+                tempMin = guess + value;
             }
 
             if(guess == number)

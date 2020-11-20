@@ -16,4 +16,14 @@ public class GameManager : MonoBehaviour
     {
         tempLayer = baseLayer;
     }
+
+    #region Singleton
+
+    public void ChangeRange(bool isTrue)
+    {
+        rangeIsChanging = isTrue;
+    }
+    public static bool rangeIsChanging;
+
+    #endregion
 }

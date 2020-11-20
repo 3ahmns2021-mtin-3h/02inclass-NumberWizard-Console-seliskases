@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using TMPro;
 
 public class NumberWizard : MonoBehaviour
@@ -20,6 +21,8 @@ public class NumberWizard : MonoBehaviour
 
     private void Update()
     {
+        int value = Convert.ToInt32(GameManager.rangeIsChanging);
+
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             min = guess + 1;
