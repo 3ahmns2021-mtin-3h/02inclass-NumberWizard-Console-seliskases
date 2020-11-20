@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class NumberWizard : MonoBehaviour
 {
-    private int min = 1;
-    private int max = 100;
+    public TextMeshProUGUI textField;
+    public int min = 1;
+    public int max = 100;
+
     private int guess;
 
     private void Start()
@@ -37,7 +40,7 @@ public class NumberWizard : MonoBehaviour
         
     private void WriteMessage(string msg)
     {
-        Debug.Log(msg);
+        textField.text = msg;
     }
 
     private void NextGuess()

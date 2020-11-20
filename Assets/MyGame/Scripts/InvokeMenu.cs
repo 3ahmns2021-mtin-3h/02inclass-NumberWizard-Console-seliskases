@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class InvokeMenu : MonoBehaviour
 {
-
     public GameManager gameManager;
 
     public enum CurrentState
