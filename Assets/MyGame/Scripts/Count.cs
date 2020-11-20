@@ -57,7 +57,7 @@ public class Count : MonoBehaviour
         int value = Convert.ToInt32(GameManager.rangeIsChanging);
         print(value);
 
-        for (int n = 1; n <= CalculateMax(); n++)
+        for (int n = 1; n <= CalculateMaxCount(); n++)
         {
             count = n;
             guess = Mathf.FloorToInt((tempMin + tempMax) / 2);
@@ -80,7 +80,7 @@ public class Count : MonoBehaviour
         return (count);
     }
 
-    private float CalculateMax()
+    private float CalculateMaxCount()
     {
         float maxCount = Mathf.Ceil(Mathf.Log(range, 2));
         return (maxCount);

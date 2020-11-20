@@ -3,51 +3,84 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using TMPro;
-using UnityEngine.SceneManagement;
 
 public class NumberWizard : MonoBehaviour
 {
     public GameObject backButton;
+    public GameObject inputButtons;
+    public TMP_InputField inputMin, inputMax;
     public TextMeshProUGUI textField;
-    public int min = 1;
-    public int max = 100;
 
+    private int min, max, value;
     private int guess, tempGuess;
+    private bool isPlaying;
 
-    private void Start()
+    //Starts The Round. Refactored in OnEnable and 2 seperate methods to ensure proper code architecture
+    private void OnEnable()
     {
-        WriteMessage("Number Wizard");
-        WriteMessage("Pick a number between 1 and 100");
-        NextGuess();
+        StartRound();
     }
 
+    //Prepares Next Round
+    private void StartRound()
+    {
+        value = Convert.ToInt32(GameManager.rangeIsChanging);
+        isPlaying = false;
+
+        inputButtons.SetActive(false);
+        inputMin.gameObject.SetActive(true);
+        inputMax.gameObject.SetActive(true);
+
+        inputMin.text = "";
+        inputMax.text = "";
+        textField.text = "";
+    }
+
+    //Waits for Input to begin the round 
     private void Update()
     {
-        int value = Convert.ToInt32(GameManager.rangeIsChanging);
-
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (!isPlaying && Input.GetKeyDown(KeyCode.Return) && int.TryParse(inputMin.text, out min) && int.TryParse(inputMax.text, out max))
         {
-            min = guess + 1;
+            min = int.Parse(inputMin.text);
+            max = int.Parse(inputMax.text);
+
+            inputMin.gameObject.SetActive(false);
+            inputMax.gameObject.SetActive(false);
+            inputButtons.SetActive(true);
+
+            isPlaying = true;
             NextGuess();
-        }
-
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            max = guess - 1;
-            NextGuess();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            WriteMessage("Fertig");
         }
     }
-        
+
+    //Output
     private void WriteMessage(string msg)
     {
         textField.text = msg;
     }
 
+    //Input
+    public void Higher()
+    {
+        min = guess + value;
+        NextGuess();
+    }
+
+    //Input
+    public void Lower()
+    {
+        max = guess - value;
+        NextGuess();
+    }
+
+    //Input
+    public void Correct()
+    {
+        StartRound();
+        WriteMessage("Brilliant! Let's try again!");
+    }
+
+    //Calculates the next guess and checks for contradictions
     private void NextGuess()
     {
         guess = (min + max) / 2;
@@ -59,38 +92,52 @@ public class NumberWizard : MonoBehaviour
         }
         else
         {
-            if (GameManager.selfDestruction)
-            {
-                backButton.SetActive(false);
-                WriteMessage("You lied!");
-                StartCoroutine(QuitGame());
-            }
-            else
-            {
-                WriteMessage("The number can't be within your given Range!");
-            }
+            StartCoroutine(ContradictionDetected());
         }
     }
 
-    private IEnumerator QuitGame()
+    //When contradiction is detected, either restarts the game or closes the executable
+    private IEnumerator ContradictionDetected()
     {
-        print("destructing");
-        float time = 6;
-        while (true)
+        if (GameManager.selfDestruction)
         {
-            time -= Time.deltaTime;
+            backButton.SetActive(false);
+            inputButtons.SetActive(false);
+            WriteMessage("You lied!");
 
-            if(time <= 5)
+            float time = 6;
+            while (true)
             {
-                textField.text = Mathf.FloorToInt(time).ToString();
-            }          
+                time -= Time.deltaTime;
 
-            if (time == 0)
-            {
-                Application.Quit();
-                break;
+                if (time <= 6)
+                {
+                    textField.text = Mathf.FloorToInt(time).ToString();
+                }
+
+                if (time == 0)
+                {
+                    Application.Quit();
+                    break;
+                }
+                yield return null;
             }
-            yield return null;
         }
+        else
+        {
+            float time = 2;
+            WriteMessage("The number isn't within your given Range!");
+
+            while (true)
+            {
+                time -= Time.deltaTime;
+
+                if(time <= 0)
+                {
+                    StartRound();
+                }
+            }
+        }
+
     }
 }
