@@ -1,7 +1,7 @@
 # 02inclass-NumberWizard-Console-seliskases
 
 ### Project description: 
-Introduction/Project summary 
+Number Wizard - a programm guessing a specific number the user choses within a given range.
 
 ### Development platform: 
 Windows, Unity 2020.1.5f1, Visual Studio 2019)
@@ -9,19 +9,11 @@ Windows, Unity 2020.1.5f1, Visual Studio 2019)
 ### Target platform: 
 Desktop, WebGl
 
-### Visuals: 
-Screenshots (concept and experience), Video
-
-### Necessary setup/execution steps: 
-Installation process, e.g. step by step instructions that I can run the project after cloning it
-
 ### Third party material: 
-(if used Fonts, Sounds, Music, Graphics, Materials, Code etc.)
+Used Buttons design are downloaded from third party providers
 
 ### Project state: 
-incl. progress in percent
-
-### Limitations: 
+Finished
 
 ### Lessons Learned:
 Checking, wether a Parse (conversion from string to int) is possible by using TryParse() in an if-Statement.
